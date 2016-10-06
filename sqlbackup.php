@@ -3,7 +3,7 @@
 /**
 * SQL Backup
 */
-class backup
+class Sqlbackup
 {
 	protected $db_name;
 	protected $db_host;
@@ -29,9 +29,7 @@ class backup
 		
 		$this->set($this->config);
 
-		$this->db_dir = $this->set_dir($this->dir);
-
-		$this->backup();
+		$this->db_dir = $this->set_dir($this->db_dir);		
 		
 	}
 
@@ -67,12 +65,17 @@ class backup
 		$rtn = system($command, $return);
 
 		if($return){
-			echo 'Error while creating sql file. Error:'.$return;
+			if($return == 2){
+				echo 'Error: Please check your database name, user and password.';				
+			}else{
+				echo 'Error while creating sql backup. Plase check config data.';
+			}
+			if(file_exists($this->db_dir.$this->db_filename)){
+				unlink($this->db_dir.$this->db_filename);
+			}
 		}else{
-			echo 'Backup created';
+			echo 'Success: Backup created.';
 		}
 	}
 
 }
-
-new backup();
