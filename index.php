@@ -2,12 +2,10 @@
 
 require 'sqlbackup.php';
 
-$config = array(
-	'db_name' => 'test_db',
-	'db_host' => 'localhost',
-	'db_user' => 'root',
-	'db_pass' => 'root@123', 
-	'db_dir' => NULL, //full/path/to/database/backup/dirctory/
+$config = array(	
+	'db_name' => '',		
+	'db_pass' => '',
 );
+
 $sql = new sqlbackup($config);
 $sql->backup();

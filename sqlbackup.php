@@ -5,20 +5,47 @@
 */
 class Sqlbackup
 {
-	protected $db_name;
-	protected $db_host;
-	protected $db_user;
-	protected $db_pass;
-	protected $db_dir;
-	protected $db_filename;
+	/**
+	 * Database name
+	 * 
+	 * Default null
+	 * Required
+	 */
+	protected $db_name = '';
 
-	protected $_config = array(
-		'db_name' => 'test_db',
-		'db_host' => 'localhost',
-		'db_user' => 'root',
-		'db_pass' => 'root@1203', 
-		'db_dir' => NULL,
-	);
+	/**
+	 * Host
+	 * 
+	 * Default localhost
+	 */
+	protected $db_host = 'localhost';
+
+	/**
+	 * database user
+	 * 
+	 * Default root
+	 */
+	protected $db_user = 'root';
+
+	/**
+	 * database password
+	 * 
+	 * Default root
+	 */
+	protected $db_pass = 'root';
+
+	/**
+	 * Backup directory
+	 * 
+	 * //full/path/to/database/backup/dirctory/
+	 * 
+	 * Default __file__
+	 */
+	protected $db_dir = null;
+
+	protected $db_filename = null;
+
+	protected $_config = array();
 
 	
 	function __construct( array $config = array() )
