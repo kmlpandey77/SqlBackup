@@ -30,9 +30,9 @@ class Sqlbackup
 	/**
 	 * database password
 	 * 
-	 * Default root
+	 * Default null
 	 */
-	protected $db_pass = 'root';
+	protected $db_pass = '';
 
 	/**
 	 * Backup directory
@@ -50,14 +50,32 @@ class Sqlbackup
 	
 	function __construct( array $config = array() )
 	{
-		$this->config = !empty($config) ? $config : $this->_config;
+		$this->set_config($config);
 
-		$this->db_filename = 'backup-'.date('d-M-Y-H-i-s').'.sql';
+		$this->db_filename = 'backup-'.date('dmy-His').'.sql';
 		
 		$this->set($this->config);
 
 		$this->db_dir = $this->set_dir($this->db_dir);		
 		
+	}
+
+	function set_config($config){
+
+		$this->config = array();
+
+		foreach ($config as $key => $value) {
+			if(!empty($value) && !is_null($value)){
+				$this->config[$key] = $value;
+			}else{
+
+				if($key == 'db_pass')
+					$this->config[$key] = '';
+				else
+					$this->config[$key] = $this->$key;
+			}
+		}
+
 	}
 
 	
@@ -85,6 +103,7 @@ class Sqlbackup
 		if(!file_exists($this->db_dir)){
 			if(!mkdir($this->db_dir,777)){
 				echo 'File or folder permission denied.' . "\n";
+				exit;
 			}
 		}
 
@@ -95,7 +114,7 @@ class Sqlbackup
 			if($return == 2){
 				echo 'Error: Please check your database name, user and password.';				
 			}else{
-				echo 'Error while creating sql backup. Plase check config data.';
+				echo 'Error while creating sql backup. Plase check config values.';
 			}
 			if(file_exists($this->db_dir.$this->db_filename)){
 				unlink($this->db_dir.$this->db_filename);
